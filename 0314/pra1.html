@@ -20,6 +20,8 @@
     </style>
 
     <script>
+        // .var = 사용자가 칠 수 있는 공간에 있는 걸 바꿈
+        // .text = 사용자가 칠 수 없는 공간에 있는 걸 바꿈
         function q1() {
             let inputText = $('#input-q1').val()
             if (inputText == '') {
@@ -59,17 +61,19 @@
 
             function q7() {
                 // 1. input-q7 값을 가져온다.
-                let name = $('#input-q7').val()
+                let name = $('#input-q7').val() // * let 변수명 --> 변수 만드는 태그 //.val() --> 인풋값 가져오기
                 // 2. 가져온 값을 이용해 names-q7에 붙일 태그를 만든다. (let temp_html = '<li>임꺽정</li>')
                 let temp_html = `<li>${name}</li>` //${변수명} -> 변수 찾아주는거
-                // let temp_html = '<li>' + name + '</li>'
+                //1번 방법 // let temp_html = '<li>' ${변수명} '</li>'
+                //2번 방법 // let temp_html = '<li>' + name + '</li>'
                 // 3. 만들어둔 temp_html을 names-q7에 붙인다.(jQuery의 $('...').append(temp_html)을 이용하면 굿!)
                 $('#names-q7').append(temp_html)
             }
 
             function q7_remove() {
                 // 1. names-q7의 내부 태그를 모두 비운다.(jQuery의 $('....').empty()를 이용하면 굿!)
-                $('#names-q7').empty()
+                $('#names-q7').empty() // 비우는법
+                // $('#names-q7').append("<li>복습</li>") // 추가하는법
             }
 
     </script>
