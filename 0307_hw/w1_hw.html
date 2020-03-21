@@ -10,6 +10,38 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script>
+        function orderClick() {
+            let order_name = $('#order_name').val()
+            let order_color = $('#order_color').val()
+            let order_address = $('#order_address').val()
+            let order_phone = $('#order_phone').val()
+
+            if (order_name == '') {
+                alert('이름을 입력해주세요')
+                $('#order_name').focus()
+                return
+            }
+            else if (order_color == '') {
+                alert('색상을 입력해주세요')
+                $('#order_color').focus()
+                return
+            }
+            else if (order_address == '') {
+                alert('주소를 입력해주세요')
+                $('#order_address').focus()
+                return
+            }
+            else if (order_phone == '') {
+                alert('휴대폰번호를 입력해주세요')
+                $('#order_phone').focus()
+                return
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -25,10 +57,10 @@
     <!-- 텍스트 -->
     <div class="text">
         <p>
-            <h2> LED 드램캐쳐 <span style="font-size: 20px;"> 가격: 38,800원</span></h2>
+            <h2> LED 드림캐쳐 <span style="font-size: 20px;"> 가격: 38,800원</span></h2>
         </p>
         <p>
-            <h5 style="font-size: 15px;"> 침실의 머리맡이나, 창가에 걸어두면<br>
+            <h5 style="font-size: 16px;"> 침실의 머리맡이나, 창가에 걸어두면<br>
                 나쁜꿈은 그물에 걸러지면서 좋은꿈은 가운데의 작은 구멍으로 찾아와<br>
                 그물에 걸린 나쁜꿈은 새벽빛에 의해 사라진다고 합니다.<br>
                 오늘밤은 드림캐쳐와 함께 좋은꿈 꾸시기 바랍니다 :)</h5>
@@ -45,47 +77,51 @@
     <!-- 부스스트랩-->
     <div>
         <div class="order request">
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">주문자</span>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">주문자</span>
+                </div>
+                <input id="order_name" type="text" class="form-control" placeholder="이름을 입력하세요"
+                    aria-label="이름을 입력하세요" aria-describedby="basic-addon1">
             </div>
-            <input type="text" class="form-control" placeholder="이름을 입력하세요" aria-label="이름을 입력하세요"
-                aria-describedby="basic-addon1">
-        </div>
 
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01">색상</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">색상</label>
+                </div>
+                <select class="custom-select" id="order_color">
+                    <option selected value>색상을 선택하세요</option>
+                    <option value="White">White</option>
+                    <option value="Black">Black</option>
+                    <option value="Red">Red</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Green">Green</option>
+                    <option value="Pink">Pink</option>
+                </select>
             </div>
-            <select class="custom-select" id="inputGroupSelect01">
-                <option selected>색상을 선택하세요</option>
-                <option value="1">White</option>
-                <option value="2">Black</option>
-                <option value="3">Red</option>
-                <option value="4">Blue</option>
-                <option value="5">Green</option>
-                <option value="6">Pink</option>
-            </select>
-        </div>
 
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">배송지</span>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">배송지</span>
+                </div>
+                <input id="order_address" type="text" class="form-control" placeholder="상세 주소를 입력하세요"
+                    aria-label="상세주소를 입력하세요" aria-describedby="basic-addon1">
             </div>
-            <input type="text" class="form-control" placeholder="상세 주소를 입력하세요" aria-label="상세주소를 입력하세요"
-                aria-describedby="basic-addon1">
-        </div>
 
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">연락처</span>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">연락처</span>
+                </div>
+                <input id="order_phone" type="text" class="form-control" placeholder="010-" aria-label="010-"
+                    aria-describedby="basic-addon1">
             </div>
-            <input type="text" class="form-control" placeholder="010-" aria-label="010-"
-                aria-describedby="basic-addon1">
+            <button id="order_button" type="button" class="btn btn-outline-secondary" onclick='orderClick()'
+                style="margin-top: 10px; margin-bottom: 30px;"> 주문하기</button>
         </div>
-        <button type="button" class="btn btn-outline-secondary" style="margin-top: 10px; margin-bottom: 30px;">주문하기</button>
-    </div>
 </body>
+
 </html>
+
+<!-- $('#변수명).is(':checked') -> 체크박스 체크 여부확인-->
 <!-- <div class="text-center">
     <img src="..." class="rounded" alt="..."> -->
