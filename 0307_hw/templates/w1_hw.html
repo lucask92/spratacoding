@@ -1,0 +1,199 @@
+<html lang="en">
+
+<head>
+    <!-- head 안에 들어 갈 어떤 요소들을 여기에 넣습니다 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>꿈꾸는 드림캐쳐</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='w1_hw_style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Cute+Font|Gamja+Flower&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#orders-box').html('');
+            listing();
+        });
+
+        function orderClick() {
+            let order_name = $('#order_name').val()
+            let order_color = $('#order_color').val()
+            let order_address = $('#order_address').val()
+            let order_phone = $('#order_phone').val()
+
+            if (order_name == '') {
+                alert('이름을 입력해주세요')
+                $('#order_name').focus()
+                return
+            }
+            else if (order_color == '') {
+                alert('색상을 입력해주세요')
+                $('#order_color').focus()
+                return
+            }
+            else if (order_address == '') {
+                alert('주소를 입력해주세요')
+                $('#order_address').focus()
+                return
+            }
+            else if (order_phone == '') {
+                alert('휴대폰번호를 입력해주세요')
+                $('#order_phone').focus()
+                return
+            }
+        
+            $.ajax({
+                type: 'POST', // 타입을 작성합니다.
+                url: '/shoppost', // url을 작성합니다.
+                data: { 'order_name': order_name, 'order_color': order_color, 'order_address': order_address, 'order_phone': order_phone },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert(response['msg']);
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+
+        function listing() {
+            // 1. 리뷰 목록을 서버에 요청하기
+            // 2. 요청 성공 여부 확인하기
+            // 3. 요청 성공했을 때 리뷰를 올바르게 화면에 나타내기
+            $.ajax({
+                type: "GET",
+                url: "/shopget",
+                data: {},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        // 2. 성공했을 때 리뷰를 올바르게 화면에 나타내기
+                        let rows = response['data']
+                        for (let i = 0; i < rows.length; i++){
+                                let order_name = rows[i]['order_name'];
+                                let order_color = rows[i]['order_color'];
+                                let order_address = rows[i]['order_address'];
+                                let order_phone = rows[i]['order_phone']
+                                make_card(order_name, order_color, order_address, order_phone);
+                            }
+                    } else {
+                        alert('입력해주세요');
+                    }
+                }
+            });
+        }
+
+        function make_card(order_name, order_color, order_address, order_phone) {
+            let temp_html = '<tr>\
+                                <td>'+ order_name + '</td>\
+                                <td>'+ order_color + '</td>\
+                                <td>'+ order_address + '</td>\
+                                <td>'+ order_phone + '</td>\
+                            </tr>';
+            $('#orders-box').append(temp_html);
+        }
+    </script>
+</head>
+
+<body>
+    <div>
+        <!-- 그림 -->
+        <br></br>
+        <p class="img">
+            <img src="http://ddmall.co.kr/data/item/1578900428/thumb-7I247I2411_600x600.jpg" width="300" height="300"
+                alt="dream" />
+        </p>
+    </div>
+
+    <!-- 텍스트 -->
+    <div class="text">
+        <p>
+            <h2> LED 드림캐쳐 <span style="font-size: 20px;"> 가격: 38,800원</span></h2>
+        </p>
+        <p>
+            <h5 style="font-size: 16px;"> 침실의 머리맡이나, 창가에 걸어두면<br>
+                나쁜꿈은 그물에 걸러지면서 좋은꿈은 가운데의 작은 구멍으로 찾아와<br>
+                그물에 걸린 나쁜꿈은 새벽빛에 의해 사라진다고 합니다.<br>
+                오늘밤은 드림캐쳐와 함께 좋은꿈 꾸시기 바랍니다 :)</h5>
+        </p>
+    </div>
+
+    <hr>
+    <div class="order">
+        <p>
+            <h2> 주문하기 <span style="font-size: 20px;">적어주세요!</span></h2>
+        </p>
+    </div>
+
+    <!-- 부스스트랩-->
+    <div>
+        <div class="order request">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">주문자</span>
+                </div>
+                <input id="order_name" type="text" class="form-control" placeholder="이름을 입력하세요" aria-label="이름을 입력하세요"
+                    aria-describedby="basic-addon1">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">색상</label>
+                </div>
+                <select class="custom-select" id="order_color">
+                    <option selected value>색상을 선택하세요</option>
+                    <option value="White">White</option>
+                    <option value="Black">Black</option>
+                    <option value="Red">Red</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Green">Green</option>
+                    <option value="Pink">Pink</option>
+                </select>
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">배송지</span>
+                </div>
+                <input id="order_address" type="text" class="form-control" placeholder="상세 주소를 입력하세요"
+                    aria-label="상세주소를 입력하세요" aria-describedby="basic-addon1">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">연락처</span>
+                </div>
+                <input id="order_phone" type="text" class="form-control" placeholder="010-" aria-label="010-"
+                    aria-describedby="basic-addon1">
+            </div>
+            <button id="order_button" type="button" class="btn btn-outline-secondary" onclick='orderClick()'
+                style="margin-top: 10px; margin-bottom: 30px;"> 주문하기
+            </button>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">주문자</th>
+                        <th scope="col">색상</th>
+                        <th scope="col">배송지</th>
+                        <th scope="col">연락처</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-box">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<!-- $('#변수명).is(':checked') -> 체크박스 체크 여부확인-->
+<!-- <div class="text-center">
+    <img src="..." class="rounded" alt="..."> -->
