@@ -29,7 +29,7 @@ def write_shop():
     db.shoppost.insert_one(doc)
     #db.변수명.insert_one(doc)
 	# 3. 성공 여부 & 성공 메시지 반환하기
-    return jsonify({'result': 'success', 'msg': '리뷰가 성공적으로 작성되었습니다.'})
+    return jsonify({'result': 'success', 'msg': '주문이 성공적으로 완료되었습니다.'})
 
 @app.route('/shopget', methods=['GET'])
 def read_shop():
