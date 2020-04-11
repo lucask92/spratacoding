@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>꿈꾸는 드림캐쳐</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='w1_hw_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Cute+Font|Gamja+Flower&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -14,11 +14,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <script>
-        $(document).ready(function () {
-            $('#orders-box').html('');
-            listing();
-        });
-
         function orderClick() {
             let order_name = $('#order_name').val()
             let order_color = $('#order_color').val()
@@ -45,54 +40,6 @@
                 $('#order_phone').focus()
                 return
             }
-
-            $.ajax({
-                type: 'POST', // 타입을 작성합니다.
-                url: '/shoppost', // url을 작성합니다.
-                data: { 'order_name': order_name, 'order_color': order_color, 'order_address': order_address, 'order_phone': order_phone },
-                success: function (response) {
-                    if (response['result'] == 'success') {
-                        alert(response['msg']);
-                        window.location.reload();
-                    }
-                }
-            });
-        }
-
-        function listing() {
-            // 1. 리뷰 목록을 서버에 요청하기
-            // 2. 요청 성공 여부 확인하기
-            // 3. 요청 성공했을 때 리뷰를 올바르게 화면에 나타내기
-            $.ajax({
-                type: "GET",
-                url: "/shopget",
-                data: {},
-                success: function (response) {
-                    if (response['result'] == 'success') {
-                        // 2. 성공했을 때 리뷰를 올바르게 화면에 나타내기
-                        let rows = response['data']
-                        for (let i = 0; i < rows.length; i++) {
-                            let order_name = rows[i]['order_name'];
-                            let order_color = rows[i]['order_color'];
-                            let order_address = rows[i]['order_address'];
-                            let order_phone = rows[i]['order_phone']
-                            make_card(order_name, order_color, order_address, order_phone);
-                        }
-                    } else {
-                        alert('입력해주세요');
-                    }
-                }
-            });
-        }
-
-        function make_card(order_name, order_color, order_address, order_phone) {
-            let temp_html = '<tr>\
-                                <td>'+ order_name + '</td>\
-                                <td>'+ order_color + '</td>\
-                                <td>'+ order_address + '</td>\
-                                <td>'+ order_phone + '</td>\
-                            </tr>';
-            $('#orders-box').append(temp_html);
         }
     </script>
 </head>
@@ -134,8 +81,8 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1">주문자</span>
                 </div>
-                <input id="order_name" type="text" class="form-control" placeholder="이름을 입력하세요" aria-label="이름을 입력하세요"
-                    aria-describedby="basic-addon1">
+                <input id="order_name" type="text" class="form-control" placeholder="이름을 입력하세요"
+                    aria-label="이름을 입력하세요" aria-describedby="basic-addon1">
             </div>
 
             <div class="input-group mb-3">
@@ -169,27 +116,8 @@
                     aria-describedby="basic-addon1">
             </div>
             <button id="order_button" type="button" class="btn btn-outline-secondary" onclick='orderClick()'
-                style="margin-top: 10px; margin-bottom: 30px;"> 주문하기
-            </button>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">주문자</th>
-                        <th scope="col">색상</th>
-                        <th scope="col">배송지</th>
-                        <th scope="col">연락처</th>
-                    </tr>
-                </thead>
-                <tbody id="orders-box">
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+                style="margin-top: 10px; margin-bottom: 30px;"> 주문하기</button>
         </div>
-    </div>
 </body>
 
 </html>

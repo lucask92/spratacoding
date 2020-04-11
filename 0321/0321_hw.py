@@ -1,15 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
-# pandas 데이터 프레임(틀)을 잡아줌
-from urllib.parse import quote_plus
-# quote_plus 인코딩시에 깨질우려가 있어서 씀
+import datetime
+
+
 
 # 크롤링
 headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
-
 searchkeywords = input("키워드를 입력하세요: ")
-url = f"https://search.naver.com/search.naver?sm=top_hty&fbm=1&ie=utf8&query={quote_plus(searchkeywords)}"
+
+url = f"https://search.naver.com/search.naver?sm=top_hty&fbm=1&ie=utf8&query={searchkeywords}"
 
 # HTML을 BeautifulSoup이라는 라이브러리를 활용해 검색하기 용이한 상태로 만듦
 # soup이라는 변수에 "파싱 용이해진 html"이 담긴 상태가 됨
@@ -19,12 +18,9 @@ soup = BeautifulSoup(data.text, 'html.parser')
 plName = soup.select("#power_link_body > ul > li.lst > div > a")
 plDescription = soup.select("#power_link_body > ul > li.lst > div > div.ad_dsc > p")
 
-result = []
+f = open('test.xlsx', 'w')
 for item in zip(plName, plDescription):
-    result.append({"제목": item[0].text.strip(), "문안": item[1].text.strip()})
+    f.write(item[0].text.strip(),"-", item[1].text.strip())
+f.close()
 
-datas = pd.DataFrame(result)
-datas.columns = ["제목", "문안"]
-datas.to_csv("결과.csv", mode='w', encoding="euc-kr")
-# mode 'w' = 덮어쓰기
 
